@@ -1,6 +1,10 @@
 export async function askGemini(prompt: string) {
   const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
+  if (!API_KEY) {
+    throw new Error("Missing VITE_GEMINI_API_KEY");
+  }
+
   const res = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
     {
@@ -18,33 +22,16 @@ export async function askGemini(prompt: string) {
     }
   );
 
+  if (!res.ok) {
+    const text = await res.text();
+    console.error("Gemini API error:", text);
+    throw new Error("Gemini API request failed");
+  }
+
   const data = await res.json();
 
-  return data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-}
-export async function extractConsolidatedInfo(text: string) {
-  const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-
-  const prompt = `
-  Trích xuất thông tin quan trọng từ nội dung sau và trả về JSON:
-
-  ${text}
-  `;
-
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }]
-      })
-    }
+  return (
+    data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+    "No response from Gemini"
   );
-
-  const data = await response.json();
-
-  return data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
 }
