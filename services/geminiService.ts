@@ -3,7 +3,7 @@ export async function extractConsolidatedInfo(text: string) {
   const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`,
     {
       method: "POST",
       headers: {
@@ -12,7 +12,7 @@ export async function extractConsolidatedInfo(text: string) {
       body: JSON.stringify({
         contents: [
           {
-            parts: [{ text }]
+            parts: [{ text: text }]
           }
         ]
       })
