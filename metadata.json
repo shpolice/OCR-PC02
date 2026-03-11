@@ -1,0 +1,5 @@
+{
+  "name": "OCR - PC02",
+  "description": "Một ứng dụng web để trích xuất thông tin từ các tài liệu hành chính bằng hình ảnh, sử dụng API Gemini. Người dùng có thể dán hoặc tải lên hình ảnh và nhận lại dữ liệu có cấu trúc dưới dạng JSON.",
+  "requestFramePermissions": []
+}
