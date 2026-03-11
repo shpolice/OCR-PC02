@@ -1,7 +1,4 @@
 export async function askGemini(prompt: string) {
-  return "Gemini API chưa được cấu hình";
-}
-export async function askGemini(prompt: string) {
   const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
   const res = await fetch(
